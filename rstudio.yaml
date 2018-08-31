@@ -1,0 +1,43 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: rstudio
+  namespace: test
+  labels:
+    component: rstudio
+    stage: test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: rstudio
+      stage: test
+  template:
+    metadata:
+      labels:
+        component: rstudio
+        stage: test
+    spec:
+      initContainers:
+      - name: volume-permission
+        image: busybox
+        imagePullPolicy: IfNotPresent
+        command: ["sh", "-c", "chmod a+w /data"]
+        securityContext:
+          privileged: true
+        volumeMounts:
+         - name: rstudio-store
+           mountPath: /data
+      containers:
+      - name: rstudio
+        image: microland/rstudio
+        ports:
+        - containerPort: 8787
+          name: tcp
+          protocol: TCP
+        volumeMounts:
+        - name: rstudio-store
+          mountPath: /data
+      volumes:
+      - name: rstudio-store
+        emptyDir:{}
