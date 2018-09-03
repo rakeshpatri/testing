@@ -7,7 +7,7 @@ metadata:
     component: rstudio
     stage: test
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       component: rstudio
@@ -30,7 +30,7 @@ spec:
            mountPath: /data
       containers:
       - name: rstudio
-        image: microland/rstudio
+        image: rakeshpatri/rstudio
         ports:
         - containerPort: 8787
           name: tcp
