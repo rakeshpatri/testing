@@ -30,7 +30,7 @@ spec:
            mountPath: /data
       containers:
       - name: rstudio
-        image: rakeshpatri/rstudio
+        image: index.docker.io/rakeshpatri/rstudio
         ports:
         - containerPort: 8787
           name: tcp
